@@ -40,4 +40,6 @@ Multi-modal AI agent built with Gemini 1.5 Pro to transform unstructured busines
 ==================================================================================
 ## 🗺️ System Architecture Blueprint
 
-![AgentBRD Architectural Blueprint](blueprint.png)
+![AgentBRD Architectural Blueprint](blueprint.jpg)
+
+
