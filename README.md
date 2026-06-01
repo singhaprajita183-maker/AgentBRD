@@ -38,3 +38,6 @@ Multi-modal AI agent built with Gemini 1.5 Pro to transform unstructured busines
 ==================================================================================
        Designed & Built by Team AI Agentic · Aprajita Singh (Class 10)
 ==================================================================================
+## 🗺️ System Architecture Blueprint
+
+![AgentBRD Architectural Blueprint](blueprint.png)
