@@ -2,16 +2,22 @@ import streamlit as st
 import time
 import pandas as pd
 
-# Set page layout to wide and corporate dark theme look
+# 1. Set page layout to wide and corporate look
 st.set_page_config(
     page_title="AgentBRD - Autonomous Corporate Analyst",
     page_icon="💼",
     layout="wide"
 )
 
-# Custom Styling for Enterprise Look
+# 2. Combined Custom Styling (Forces Dark Blue-Black Theme across the entire screen)
 st.markdown("""
     <style>
+    /* Global Background and text color override */
+    .stApp {
+        background-color: #0b0f19;
+        color: #f8fafc;
+    }
+    /* Element level components styling */
     .main-title { font-size: 40px; color: #38bdf8; font-weight: bold; margin-bottom: 5px; }
     .sub-title { font-size: 18px; color: #94a3b8; margin-bottom: 25px; }
     .metric-card { background-color: #0f172a; padding: 15px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
@@ -20,7 +26,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Sidebar Configuration
+# 3. Sidebar Configuration
 with st.sidebar:
     st.image("https://img.icons8.com/external-flatart-icons-flat-flatarticons/128/external-agent-customer-support-flatart-icons-flat-flatarticons.png", width=80)
     st.markdown("## **AgentBRD Command Center**")
@@ -37,11 +43,11 @@ with st.sidebar:
     st.markdown("- **Builders:** Aprajita Singh (Class 10) & Divyanshu Singh")
     st.markdown("- **Track:** Google Cloud Rapid Agent Hackathon")
 
-# Main Screen Header
+# 4. Main Screen Header
 st.markdown('<div class="main-title">💼 AgentBRD Dashboard</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-title">Multi-agent system ingesting text transcripts, audio, and wireframe designs into verifiable corporate BRDs.</div>', unsafe_allow_html=True)
 
-# Top Live Metrics Bar
+# 5. Top Live Metrics Bar
 m1, m2, m3, m4 = st.columns(4)
 with m1:
     st.markdown('<div class="metric-card"><div class="metric-value">2M Tokens</div><div class="metric-label">Gemini Context Window</div></div>', unsafe_allow_html=True)
@@ -54,7 +60,7 @@ with m4:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# Layout: Split into Input Assets (Left) and Live Agent Execution / Output (Right)
+# 6. Layout: Split into Input Assets (Left) and Live Agent Execution / Output (Right)
 col1, col2 = st.columns([1, 1.2])
 
 with col1:
@@ -136,7 +142,7 @@ with col2:
                 "Latency (s)": [0.84, 1.12, 0.45],
                 "Status": ["SUCCESS", "PASSED", "SUCCESS"]
             }
-            st.table(pd.DataFrame(log_data))
+            st.dataframe(pd.DataFrame(log_data), use_container_width=True)
             
             # Export Action
             st.download_button(
@@ -150,6 +156,6 @@ with col2:
     else:
         st.info("ℹ️ System Status: Idle. Ingest unorganized files or client transcripts on the left panel to trigger the autonomous pipeline.")
 
-# Footer Area
+# 7. Footer Area
 st.markdown("---")
 st.markdown("<p style='text-align: center; color: #64748b;'>Developed & Conceptualized by Team AI Agentic · Hosted on Google Cloud Infrastructure</p>", unsafe_allow_html=True)
