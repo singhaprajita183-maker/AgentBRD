@@ -40,4 +40,5 @@ Multi-modal AI agent built with Gemini 1.5 Pro to transform unstructured busines
 ==================================================================================
 <img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/227ce876-9c37-4cf9-8bf0-2bba265d312b" />
 
-
+### 🦊 Partner Integration: GitLab MCP Server
+AgentBRD is integrated with the **GitLab MCP Server**. Once the autonomous multi-agent pipeline finalizes the production-grade Corporate BRD, the integration bridge automatically connects to the enterprise GitLab instance. It decomposes the BRD requirements into actionable GitLab Issues and pushes the generated Markdown documentation directly into the project's GitLab repository for developer handoff.
