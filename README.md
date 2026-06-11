@@ -1,44 +1,47 @@
-# AgentBRD
-Multi-modal AI agent built with Gemini 1.5 Pro to transform unstructured business data into standard corporate BRD documents.
-==================================================================================
-                           AGENTBRD ARCHITECTural BLUEPRINT
-==================================================================================
+# 💼 AgentBRD - Autonomous Multi-Modal Enterprise Analyst
 
-  [📥 INPUT SOURCE LAYER]
-  ├── Unstructured Audio (Client Meetings, MP3/WAV)
-  ├── Visual Assets (Whiteboard Sketches, UI Wireframes, PNG/JPEG)
-  ├── Fragmented Text (Slack Export, WhatsApp Chats, Legacy PDFs)
-  └── Transcripts (PO Notes, Markdown)
-            │
-            ▼
-  [🛡️ SECURE INGESTION GATEWAY]
-  └── Streamlit Web UI Platform ──► Uploads to ──► Google Cloud Storage (GCS Bucket)
-                                                         │
-                                                         ▼
-  [🧠 CORE AI PROCESSING ENGINE (Gemini 1.5 Pro Layer)] ◄┘
-  ├── Massive Context Window Parsing (Up to 2 Million Tokens)
-  ├── Vision-Text Fusion Engine (Deducing Technical Logic from Visual Diagrams)
-  └── Multi-Agent Framework Coordination
-            │
-            ├───► [🔍 SUB-AGENT 1: Context Extractor]
-            ├───► [🔍 SUB-AGENT 2: Structural Compliance Checker]
-            └───► [🔍 SUB-AGENT 3: Anchor Lineage Linker]
-            │
-            ▼
-  [⚡ ENTERPRISE VALIDATION & TELEMETRY LAYER]
-  ├── Guardrails Engine ──► (Eliminates Hallucinations & Structural Anomalies)
-  └── Real-time Telemetry ──► Streams System Logs to ──► Google BigQuery Analytics
-            │
-            ▼
-  [📤 OUTPUT & EXPORT LAYER]
-  ├── Standardized Corporate BRD Generation (Production-Grade Markdown)
-  ├── Traceability Maps (Embedded Anchor Links pointing back to GCS Source Files)
-  └── Future Pipeline Integration Bridge ──► (Auto-decomposition to Jira/GitHub)
+AgentBRD is a production-grade, autonomous multi-agent intelligence suite powered by the **Gemini 1.5 Pro** engine. It is custom-engineered to ingest highly chaotic, unstructured business assets (meeting voice transcripts, whiteboard wireframes, fragmented chats) and synthesize them into standardized, traceable Corporate Business Requirement Documents (BRDs) in minutes.
 
-==================================================================================
-       Designed & Built by Team AI Agentic · Aprajita Singh (Class 10)
-==================================================================================
-<img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/227ce876-9c37-4cf9-8bf0-2bba265d312b" />
+---
 
-### 🦊 Partner Integration: GitLab MCP Server
-AgentBRD is integrated with the **GitLab MCP Server**. Once the autonomous multi-agent pipeline finalizes the production-grade Corporate BRD, the integration bridge automatically connects to the enterprise GitLab instance. It decomposes the BRD requirements into actionable GitLab Issues and pushes the generated Markdown documentation directly into the project's GitLab repository for developer handoff.
+## 🤖 System Enterprise Architecture
+
+Here is the strategic structural flow governing the data processing pipelines:
+
+```bash
+<img width="1848" height="851" alt="architecture_blueprint" src="https://github.com/user-attachments/assets/16ffbaff-ba46-48bf-b783-b50b81b7b382" />
+
+
+==================================================================================================
+[📥 ENTERPRISE MULTI-MODAL INGESTION LAYER]
+ ├── Unstructured Audio (Client Discovery Sessions, MP3/WAV 16kHz Nodes)
+ ├── Visual Tech Architecture (Whiteboard UX Sketches, Database Schema Layouts, PNG/JPEG)
+ ├── Fragmented Chat Ops (Slack Enterprise Export, WhatsApp Logs, Legacy PDFs)
+ └── System Telemetry & Transcripts (Product Owner Scenario Notes, Markdown)
+        │
+        ▼
+[🛡️ SECURITY GATEWAY & PII ANONYMIZATION FILTERS]
+ └── Streamlit Web UI UI Engine ──► PII Cryptographic Masking ──► Google Cloud Storage (GCS Sync)
+        │
+        ▼
+[🧠 DEEP COGNITIVE CORE ENGINE (Gemini 1.5 Pro Architecture Layer)]
+ ├── Massive Context Scaling Matrix (Up to 2 Million Tokens Parallel Structural Ingestion)
+ ├── Vision-Text Embedding Fusion (Cross-referencing UI Wireframes with Technical Logic Nodes)
+ └── Hierarchical Autonomous Multi-Agent Routing (Enforced via Custom Multi-Prompt Frameworks)
+        │
+        ├───► [🔍 SUB-AGENT 1: Context & Core Requirement Extractor]
+        ├───► [🔍 SUB-AGENT 2: ISO/Standard Corporate Compliance Schema Validator]
+        └───► [🔍 SUB-AGENT 3: Anchor Lineage Linker (Source-to-Requirement Integrity Map)]
+        │
+        ▼
+[⚡ REAL-TIME TELEMETRY STREAM & DETERMINISTIC GUARDRAILS]
+ ├── Strict Compliance Guardrails Engine ──► (Zero-Hallucination & Structural Anomalies Block)
+ └── Live Analytics Log Streaming ──► Streams JSON Executions ──► Google BigQuery Telemetry Hub
+        │
+        ▼
+[📤 DEV-OPS DEPLOYMENT & DECOMPOSITION WORKFLOWS]
+ ├── Production-Grade Document Factory (Standardized Markdown BRD with Complete Traceability Maps)
+ └── Custom GitLab MCP Integration Bridge
+        ├──► Automated Decomposition into Modular Agile GitLab Issues
+        └──► Generation of Autonomous Boilerplate Code Stubs inside Target Repositories
+==================================================================================================
