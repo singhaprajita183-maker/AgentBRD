@@ -10,6 +10,7 @@ Here is the strategic structural flow governing the data processing pipelines:
 
 ![System Enterprise Architecture](https://github.com/user-attachments/assets/16ffbaff-ba46-48bf-b783-b50b81b7b382)
 
+```text
 ==================================================================================================
 [📥 ENTERPRISE MULTI-MODAL INGESTION LAYER]
  ├── Unstructured Audio (Client Discovery Sessions, MP3/WAV 16kHz Nodes)
@@ -27,9 +28,9 @@ Here is the strategic structural flow governing the data processing pipelines:
  ├── Vision-Text Embedding Fusion (Cross-referencing UI Wireframes with Technical Logic Nodes)
  └── Hierarchical Autonomous Multi-Agent Routing (Enforced via Custom Multi-Prompt Frameworks)
         │
-        ├───► [🔍 SUB-AGENT 1: Context & Core Requirement Extractor]
-        ├───► [🔍 SUB-AGENT 2: ISO/Standard Corporate Compliance Schema Validator]
-        └───► [🔍 SUB-AGENT 3: Anchor Lineage Linker (Source-to-Requirement Integrity Map)]
+        ├───► [🔍 ANALYSIS AGENT: Context & Core Requirement Extractor]
+        ├───► [🔍 ENGINEERING AGENT: ISO/Standard Corporate Compliance Schema Validator]
+        └───► [🔍 PLANNER AGENT: Anchor Lineage Linker (Source-to-Requirement Integrity Map)]
         │
         ▼
 [⚡ REAL-TIME TELEMETRY STREAM & DETERMINISTIC GUARDRAILS]
@@ -42,4 +43,4 @@ Here is the strategic structural flow governing the data processing pipelines:
  └── Custom GitLab MCP Integration Bridge
         ├──► Automated Decomposition into Modular Agile GitLab Issues
         └──► Generation of Autonomous Boilerplate Code Stubs inside Target Repositories
-==============================================================================================
+==================================================================================================
