@@ -8,9 +8,7 @@ AgentBRD is a production-grade, autonomous multi-agent intelligence suite powere
 
 Here is the strategic structural flow governing the data processing pipelines:
 
-```bash
-<img width="1848" height="851" alt="architecture_blueprint" src="https://github.com/user-attachments/assets/16ffbaff-ba46-48bf-b783-b50b81b7b382" />
-
+![System Enterprise Architecture](https://github.com/user-attachments/assets/16ffbaff-ba46-48bf-b783-b50b81b7b382)
 
 ==================================================================================================
 [📥 ENTERPRISE MULTI-MODAL INGESTION LAYER]
@@ -44,4 +42,4 @@ Here is the strategic structural flow governing the data processing pipelines:
  └── Custom GitLab MCP Integration Bridge
         ├──► Automated Decomposition into Modular Agile GitLab Issues
         └──► Generation of Autonomous Boilerplate Code Stubs inside Target Repositories
-==================================================================================================
+==============================================================================================
