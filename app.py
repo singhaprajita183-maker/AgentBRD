@@ -76,7 +76,7 @@ if generate_btn and raw_input:
     
     # --- Agent 2: Compliance & Architecture Validator ---
     status_box.info("🛡️ [Agent 2/3] Engineering Agent enforcing 2026 Tech Compliance...")
-    prompt_2 = f"Based on these requirements, recommend a enterprise 2026 Tech Stack and compliance schema:\n{agent1_res.text}"
+    prompt_2 = f"Based on these requirements, recommend an enterprise 2026 Tech Stack and compliance schema:\n{agent1_res.text}"
     agent2_res = client.models.generate_content(
         model='gemini-1.5-pro',
         contents=prompt_2,
