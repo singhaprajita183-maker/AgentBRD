@@ -1,4 +1,5 @@
 import os
+import re
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -8,6 +9,30 @@ from dotenv import load_dotenv
 
 # Load Environment Variables
 load_dotenv()
+
+# --- 🛡️ ENTERPRISE SECURITY & PII GATEWAY FUNCTION ---
+def sanitize_pii_data(raw_text: str) -> str:
+    """
+    AgentBRD Security Gateway: Masks sensitive email, phone numbers,
+    and API keys before processing through LLM pipelines.
+    """
+    if not raw_text:
+        return ""
+    
+    # Email Pattern Masking
+    email_pattern = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+    masked_text = re.sub(email_pattern, '[REDACTED_EMAIL]', raw_text)
+    
+    # Phone Number Pattern Masking
+    phone_pattern = r'(\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}'
+    masked_text = re.sub(phone_pattern, '[REDACTED_PHONE]', masked_text)
+    
+    # Sensitive Keys Pattern Masking
+    api_key_pattern = r'(sk-[a-zA-Z0-9]{32,})|(AIza[0-9A-Za-z-_]{35})'
+    masked_text = re.sub(api_key_pattern, '[REDACTED_API_KEY]', masked_text)
+    
+    return masked_text
+
 
 # Streamlit Page Config
 st.set_page_config(
@@ -141,12 +166,18 @@ elif active_tab == "📥 Asset Ingestion & Pipeline":
                 client = genai.Client(api_key=api_key)
                 
                 status = st.empty()
-                status.write("⚙️ Active PII Filter: Masking sensitive credentials...")
+                
+                # --- STEP 1: PII MASKING INTEGRATION ---
+                status.write("⚙️ Active PII Filter: Anonymizing sensitive user credentials...")
+                clean_text = sanitize_pii_data(raw_text)
+                
+                if raw_text != clean_text:
+                    st.info("🛡️ **PII Masking Triggered:** Sensitive details (emails/phones) were redacted automatically.")
                 
                 # Dynamic Content Parsing
                 input_contents = []
-                if raw_text:
-                    input_contents.append(raw_text)
+                if clean_text:
+                    input_contents.append(clean_text)
                 if uploaded_file:
                     bytes_data = uploaded_file.read()
                     input_contents.append(types.Part.from_bytes(data=bytes_data, mime_type=uploaded_file.type))
@@ -208,7 +239,7 @@ elif active_tab == "📊 Real-Time Telemetry & Logs":
     
     st.subheader("☁️ Google BigQuery Live Analytical Log Stream")
     logs_df = pd.DataFrame({
-        "Timestamp": ["2026-07-26 11:42:01", "2026-07-26 11:42:02", "2026-07-26 11:42:03"],
+        "Timestamp": ["2026-08-03 14:20:01", "2026-08-03 14:20:02", "2026-08-03 14:20:03"],
         "Agent Node Call": ["Context Extractor", "Compliance Guardrail", "Lineage Linker"],
         "Computed Latency": ["0.32s", "0.41s", "0.28s"],
         "Node Health Status": ["SUCCESS / COMMITTED", "PASSED / FILTERED", "PASSED / LINKED"]
