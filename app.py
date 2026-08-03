@@ -107,6 +107,16 @@ with st.sidebar:
     st.markdown("### 👤 Identity Architecture")
     st.caption("Designed & Engineered Softly by **Aprajita Singh** (Class 10)")
 
+# Helper to resolve API Key priority
+def resolve_api_key():
+    if user_api_key:
+        return user_api_key
+    if env_key:
+        return env_key
+    if secret_key:
+        return secret_key
+    return None
+
 # --- TAB 1: CORE HUB & OVERVIEW ---
 if active_tab == "🏠 Core Hub & Overview":
     st.title("🌐 Welcome to AgentBRD Enterprise Suite")
@@ -157,6 +167,16 @@ elif active_tab == "📥 Asset Ingestion & Pipeline":
         st.subheader("📂 Load Business Assets")
         st.checkbox("Enable Live Microphone Input")
         
+        raw_text = st.text_area("Paste Text, Chats, or Transcript Snippets:", height=120, placeholder="Paste raw notes here...")
+        uploaded_file = st.file_uploader("Upload Diagrams, Audio, or Legacy Specs", type=["png", "jpg", "jpeg", "mp3", "pdf", "txt"])
+        
+        run_btn = st.button("🚀 Execute Autonomous Processing Pipeline", use_container_width=True)
+        
+    with col_right:
+        st.subheader("🖥️ Active Processing Pipeline Window")
+        
+        if not run_btn:
+            st.info("🟢 System Node Idle. Waiting for asset injection or text input on the left panel.")
         else:
             api_key = resolve_api_key()
             if not api_key:
@@ -225,19 +245,6 @@ elif active_tab == "📥 Asset Ingestion & Pipeline":
                 except Exception as e:
                     st.error(f"❌ API Request Failed: {str(e)}")
                     st.warning("💡 Quick Tip: Google AI Studio se apni API Key dobara copy karke sidebar mein fresh paste karo!")
-                
-                status.success("🎯 Target Asset Generated Successfully!")
-                
-                st.subheader("📄 Output Document Sandbox")
-                st.markdown(final_brd.text)
-                
-                st.download_button(
-                    label="📥 Download Compiled Markdown BRD",
-                    data=final_brd.text,
-                    file_name="AgentBRD_Compiled_BRD.md",
-                    mime="text/markdown",
-                    use_container_width=True
-                )
 
 # --- TAB 3: REAL-TIME TELEMETRY & LOGS ---
 elif active_tab == "📊 Real-Time Telemetry & Logs":
