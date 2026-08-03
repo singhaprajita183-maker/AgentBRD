@@ -18,13 +18,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Helper function to obtain GEMINI_API_KEY from environment or Streamlit Secrets
-def get_gemini_api_key() -> str:
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key and "GEMINI_API_KEY" in st.secrets:
-        api_key = st.secrets["GEMINI_API_KEY"]
-    return api_key
-
 # Enterprise Security Gateway (PII Anonymization Function)
 def sanitize_pii_data(raw_text: str) -> str:
     """Masks Emails, Phone numbers, and API Keys for Security Compliance."""
@@ -78,13 +71,27 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Sidebar Navigation Portals
+# Sidebar Navigation Portals & API Key Box
 with st.sidebar:
     st.markdown("🟢 **Session Active:** `Lead Business Analyst`")
     st.title("AgentBRD Command Center")
     st.caption("Enterprise AI Suite v2.0 (Gemini 1.5 Pro)")
     st.divider()
     
+    # 🔑 UI API Key Input Box
+    st.markdown("### 🔑 API Authentication")
+    env_key = os.getenv("GEMINI_API_KEY", "")
+    secret_key = st.secrets.get("GEMINI_API_KEY", "") if "GEMINI_API_KEY" in st.secrets else ""
+    default_key = env_key or secret_key
+    
+    user_api_key = st.text_input(
+        "Enter Gemini API Key:", 
+        value=default_key, 
+        type="password", 
+        help="Paste your Gemini API key here to run the multi-agent pipeline."
+    )
+    
+    st.divider()
     st.markdown("### 🧭 Navigation Portals")
     active_tab = st.radio(
         "Select Active Workspace:",
@@ -161,14 +168,13 @@ elif active_tab == "📥 Asset Ingestion & Pipeline":
         if not run_btn:
             st.info("🟢 System Node Idle. Waiting for asset injection or text input on the left panel.")
         else:
-            api_key = get_gemini_api_key()
-            if not api_key:
-                st.error("⚠️ GEMINI_API_KEY environment variable or Streamlit Secret not configured!")
+            if not user_api_key:
+                st.error("⚠️ Please enter your GEMINI_API_KEY in the sidebar on the left!")
             else:
-                client = genai.Client(api_key=api_key)
+                client = genai.Client(api_key=user_api_key)
                 
                 status = st.empty()
-                status.write("⚙️ **Active PII Filter**: Masking sensitive credentials and credentials...")
+                status.write("⚙️ **Active PII Filter**: Masking sensitive credentials...")
                 
                 # Step 1: PII Masking
                 sanitized_text = sanitize_pii_data(raw_text)
