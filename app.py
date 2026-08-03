@@ -7,7 +7,7 @@ from google import genai
 from google.genai import types
 from dotenv import load_dotenv
 
-# Load Environment Variables
+# Load Environment Variables from local .env if available
 load_dotenv()
 
 # Streamlit Page Config
@@ -17,6 +17,13 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# Helper function to obtain GEMINI_API_KEY from environment or Streamlit Secrets
+def get_gemini_api_key() -> str:
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key and "GEMINI_API_KEY" in st.secrets:
+        api_key = st.secrets["GEMINI_API_KEY"]
+    return api_key
 
 # Enterprise Security Gateway (PII Anonymization Function)
 def sanitize_pii_data(raw_text: str) -> str:
@@ -154,9 +161,9 @@ elif active_tab == "📥 Asset Ingestion & Pipeline":
         if not run_btn:
             st.info("🟢 System Node Idle. Waiting for asset injection or text input on the left panel.")
         else:
-            api_key = os.getenv("GEMINI_API_KEY", "")
+            api_key = get_gemini_api_key()
             if not api_key:
-                st.error("⚠️ GEMINI_API_KEY environment variable not set in .env file!")
+                st.error("⚠️ GEMINI_API_KEY environment variable or Streamlit Secret not configured!")
             else:
                 client = genai.Client(api_key=api_key)
                 
