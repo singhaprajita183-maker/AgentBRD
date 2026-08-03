@@ -157,62 +157,74 @@ elif active_tab == "📥 Asset Ingestion & Pipeline":
         st.subheader("📂 Load Business Assets")
         st.checkbox("Enable Live Microphone Input")
         
-        raw_text = st.text_area("Paste Text, Chats, or Transcript Snippets:", height=120, placeholder="Paste raw notes here...")
-        uploaded_file = st.file_uploader("Upload Diagrams, Audio, or Legacy Specs", type=["png", "jpg", "jpeg", "mp3", "pdf", "txt"])
-        
-        run_btn = st.button("🚀 Execute Autonomous Processing Pipeline", use_container_width=True)
-        
-    with col_right:
-        st.subheader("🖥️ Active Processing Pipeline Window")
-        
-        if not run_btn:
-            st.info("🟢 System Node Idle. Waiting for asset injection or text input on the left panel.")
         else:
-            if not user_api_key:
-                st.error("⚠️ Please enter your GEMINI_API_KEY in the sidebar on the left!")
+            api_key = resolve_api_key()
+            if not api_key:
+                st.error("⚠️ Please enter your Gemini API Key in the Sidebar on the left!")
             else:
-                client = genai.Client(api_key=user_api_key)
+                # Clean API Key to remove extra spaces/newlines
+                api_key = api_key.strip()
                 
-                status = st.empty()
-                status.write("⚙️ **Active PII Filter**: Masking sensitive credentials...")
-                
-                # Step 1: PII Masking
-                sanitized_text = sanitize_pii_data(raw_text)
-                
-                # Dynamic Content Parsing
-                input_contents = []
-                if sanitized_text:
-                    input_contents.append(sanitized_text)
-                if uploaded_file:
-                    bytes_data = uploaded_file.read()
-                    input_contents.append(types.Part.from_bytes(data=bytes_data, mime_type=uploaded_file.type))
-                
-                if not input_contents:
-                    input_contents = ["Generate sample e-commerce enterprise requirements."]
+                try:
+                    client = genai.Client(api_key=api_key)
+                    
+                    status = st.empty()
+                    status.write("⚙️ **Active PII Filter**: Masking sensitive credentials...")
+                    
+                    # Step 1: PII Masking
+                    sanitized_text = sanitize_pii_data(raw_text)
+                    
+                    # Dynamic Content Parsing
+                    input_contents = []
+                    if sanitized_text:
+                        input_contents.append(sanitized_text)
+                    if uploaded_file:
+                        bytes_data = uploaded_file.getvalue()
+                        input_contents.append(types.Part.from_bytes(data=bytes_data, mime_type=uploaded_file.type))
+                    
+                    if not input_contents:
+                        input_contents = ["Generate sample e-commerce enterprise requirements."]
 
-                # Agent 1: Analysis Agent
-                status.write("🔍 **[Analysis Agent]**: Extracting core concepts and requirements...")
-                res1 = client.models.generate_content(
-                    model='gemini-1.5-pro',
-                    contents=input_contents,
-                    config=types.GenerateContentConfig(system_instruction="Extract key functional requirements.")
-                )
-                
-                # Agent 2: Engineering Agent
-                status.write("🛡️ **[Engineering Agent]**: Enforcing ISO schema and technical compliance...")
-                res2 = client.models.generate_content(
-                    model='gemini-1.5-pro',
-                    contents=[f"Recommend architecture for: {res1.text}"],
-                    config=types.GenerateContentConfig(system_instruction="Specify architecture stack and data schema.")
-                )
-                
-                # Agent 3: Planner Agent
-                status.write("📑 **[Planner Agent]**: Synthesizing Corporate BRD...")
-                final_brd = client.models.generate_content(
-                    model='gemini-1.5-pro',
-                    contents=[f"Requirements:\n{res1.text}\n\nTech Architecture:\n{res2.text}\n\nGenerate complete Markdown BRD."],
-                    config=types.GenerateContentConfig(system_instruction="Output full formal Business Requirement Document in Markdown.")
-                )
+                    # Agent 1: Analysis Agent
+                    status.write("🔍 **[Analysis Agent]**: Extracting core concepts and requirements...")
+                    res1 = client.models.generate_content(
+                        model='gemini-1.5-pro',
+                        contents=input_contents,
+                        config=types.GenerateContentConfig(system_instruction="Extract key functional requirements.")
+                    )
+                    
+                    # Agent 2: Engineering Agent
+                    status.write("🛡️ **[Engineering Agent]**: Enforcing ISO schema and technical compliance...")
+                    res2 = client.models.generate_content(
+                        model='gemini-1.5-pro',
+                        contents=[f"Recommend architecture for: {res1.text}"],
+                        config=types.GenerateContentConfig(system_instruction="Specify architecture stack and data schema.")
+                    )
+                    
+                    # Agent 3: Planner Agent
+                    status.write("📑 **[Planner Agent]**: Synthesizing Corporate BRD...")
+                    final_brd = client.models.generate_content(
+                        model='gemini-1.5-pro',
+                        contents=[f"Requirements:\n{res1.text}\n\nTech Architecture:\n{res2.text}\n\nGenerate complete Markdown BRD."],
+                        config=types.GenerateContentConfig(system_instruction="Output full formal Business Requirement Document in Markdown.")
+                    )
+                    
+                    status.success("🎯 Target Asset Generated Successfully!")
+                    
+                    st.subheader("📄 Output Document Sandbox")
+                    st.markdown(final_brd.text)
+                    
+                    st.download_button(
+                        label="📥 Download Compiled Markdown BRD",
+                        data=final_brd.text,
+                        file_name="AgentBRD_Compiled_BRD.md",
+                        mime="text/markdown",
+                        use_container_width=True
+                    )
+
+                except Exception as e:
+                    st.error(f"❌ API Request Failed: {str(e)}")
+                    st.warning("💡 Quick Tip: Google AI Studio se apni API Key dobara copy karke sidebar mein fresh paste karo!")
                 
                 status.success("🎯 Target Asset Generated Successfully!")
                 
